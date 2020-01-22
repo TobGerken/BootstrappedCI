@@ -80,8 +80,9 @@ modifier = [1 1 1 ; 0.5 1 1; 2 1 1; 1 0.5 1; 1 2 1 ;0.5 0.5 1; 2 2 1; 0.5 2 1; 2
 %% Load data and 
 
 % Load Data 
-DataDir = [basepath 'InDir'] ;
-OutDir = [basepath 'OutDir'] ;
+DataDir = ['./InDir/'] ;
+OutDir = ['./OutDir/'] ;
+File = 'AllLegs.mat' ;
 
 load([DataDir File]);
 
