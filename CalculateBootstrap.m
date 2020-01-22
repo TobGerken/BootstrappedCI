@@ -5,7 +5,8 @@
 % Script for running on ACI Cluster to compute variogram and bootstrap
 % samples
 
-clear all; close all;
+function funOut = CalculateBootstrap(Cases, nboot)
+
 %% Personal header to adjust paths 
 if strcmp(getenv('computername'),'DESKTOP-45CVB98')
     addpath(genpath('C:\Users\tobia\OneDrive - The Pennsylvania State University\Projects\ACT-America\Code\GitCode'));
@@ -38,9 +39,14 @@ maxd = edges(end);
 
 clear s a n r
 
-Cases = {'Regions'};
-Cases = {'Airmasses'};
-Cases = {'Seasons'};
+if ~exist('Cases')
+    error('need to pass Cases argument')
+end
+disp(Cases)
+disp(nboot)
+%Cases = {'Regions'};
+%Cases = {'Airmasses'};
+%Cases = {'Seasons'};
 
 Levels = {'ABL','LFT','HFT'} ;   
 Regions = {'NEMA','SC','MWe'} ;
@@ -52,7 +58,7 @@ Nme.Seasons = Seasons;
 Nme.Airmasses = Airmasses;
 
 % Bootstrapping parameters
-nboot = 1000; % number of bootstraps (allow some additionals for non-convergence)
+%nboot = 1000; % number of bootstraps (allow some additionals for non-convergence)
 BlockLengthMeth = 'Optimal' ;% calculates blocklength based on autocorr, default is simple which is n^(1/3)
 
 % Set models
@@ -75,7 +81,7 @@ modifier = [1 1 1 ; 0.5 1 1; 2 1 1; 1 0.5 1; 1 2 1 ;0.5 0.5 1; 2 2 1; 0.5 2 1; 2
 
 % Load Data 
 DataDir = [basepath 'InDir'] ;
-OutDir = DataDir = [basepath 'OutDir']
+OutDir = [basepath 'OutDir'] ;
 
 load([DataDir File]);
 
@@ -343,4 +349,7 @@ for c = Cases
             end
         end
      end
+end
+
+funOut = 1;
 end
