@@ -6,6 +6,7 @@
 % samples
 
 function funOut = CalculateBootstrap(cs, nboot)
+warning('off','all')
 
 %% Personal header to adjust paths 
 if strcmp(getenv('computername'),'DESKTOP-45CVB98')
