@@ -23,8 +23,8 @@ elseif strcmp(getenv('computername'),  'E2-MET-WKDT013')
 else
     basepath = '.\';
 end
-set(0,'DefaultLegendAutoUpdate','off') % from 2017 onwards legends autoupdate, add to startup.m
-set(0, 'DefaultFigureVisible', 'on')
+%set(0,'DefaultLegendAutoUpdate','off') % from 2017 onwards legends autoupdate, add to startup.m
+%set(0, 'DefaultFigureVisible', 'on')
 %% Global Settings 
 
 % use some kind of geometric scaling for variogram bins 
