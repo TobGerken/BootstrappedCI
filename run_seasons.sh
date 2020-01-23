@@ -26,7 +26,7 @@ cd $PBS_O_WORKDIR
 
 # Run the job itself - a matlab script called runThis.m
 
-matlab -nodisplay -nosplash -r "calculateBootstrap(2,1000)" > logSeason.matlabRun
+matlab -nodisplay -nosplash -r "CalculateBootstrap(2,1000)" > logSeason.matlabRun
 
 # Finish up
 
