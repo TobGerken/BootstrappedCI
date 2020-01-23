@@ -39,11 +39,11 @@ maxd = edges(end);
 
 clear s a n r
 
-if ~exist('Cases')
-    error('need to pass Cases argument')
-end
-disp(Cases)
-disp(nboot)
+%if ~exist('Cases')
+%    error('need to pass Cases argument')
+%end
+%disp(Cases)
+%disp(nboot)
 
 if cs ==1
 Cases = {'Regions'};
