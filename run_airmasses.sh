@@ -26,7 +26,7 @@ cd $PBS_O_WORKDIR
 
 # Run the job itself - a matlab script called runThis.m
 
-matlab -nodisplay -nosplash -r "calculateBootstrap(3,1000)" > logAirmass.matlabRun
+matlab -nodisplay -nosplash -r "CalculateBootstrap(3,1000)" > logAirmass.matlabRun
 
 # Finish up
 

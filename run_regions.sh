@@ -26,7 +26,7 @@ cd $PBS_O_WORKDIR
 
 # Run the job itself - a matlab script called runThis.m
 
-matlab -nodisplay -nosplash -r "calculateBootstrap(1,1000)" > logRegion.matlabRun
+matlab -nodisplay -nosplash -r "CalculateBootstrap(1,1000)" > logRegion.matlabRun
 
 # Finish up
 
