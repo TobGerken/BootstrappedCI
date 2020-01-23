@@ -5,7 +5,7 @@
 % Script for running on ACI Cluster to compute variogram and bootstrap
 % samples
 
-function funOut = CalculateBootstrap(Cases, nboot)
+function funOut = CalculateBootstrap(cs, nboot)
 
 %% Personal header to adjust paths 
 if strcmp(getenv('computername'),'DESKTOP-45CVB98')
@@ -44,9 +44,14 @@ if ~exist('Cases')
 end
 disp(Cases)
 disp(nboot)
-%Cases = {'Regions'};
-%Cases = {'Airmasses'};
-%Cases = {'Seasons'};
+
+if cs ==1
+Cases = {'Regions'};
+elseif cs ==2
+Cases = {'Airmasses'};
+elseif cs ==3
+    Cases = {'Seasons'};
+end
 
 Levels = {'ABL','LFT','HFT'} ;   
 Regions = {'NEMA','SC','MWe'} ;
