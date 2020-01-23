@@ -48,9 +48,9 @@ clear s a n r
 if cs ==1
 Cases = {'Regions'};
 elseif cs ==2
-Cases = {'Airmasses'};
+Cases = {'Seasons'};
 elseif cs ==3
-    Cases = {'Seasons'};
+    Cases = {'Airmasses'};
 end
 
 Levels = {'ABL','LFT','HFT'} ;   
