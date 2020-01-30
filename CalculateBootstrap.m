@@ -5,7 +5,8 @@
 % Script for running on ACI Cluster to compute variogram and bootstrap
 % samples
 
-function funOut = CalculateBootstrap(cs, nboot)
+function funOut = CalculateBootstrap(cs, amod, cat, startlev, nboot)
+warning('off','all')
 
 %% Personal header to adjust paths 
 if strcmp(getenv('computername'),'DESKTOP-45CVB98')
@@ -46,11 +47,17 @@ clear s a n r
 %disp(nboot)
 
 if cs ==1
-Cases = {'Regions'};
+Cases = {'Regions'}
 elseif cs ==2
-Cases = {'Seasons'};
+Cases = {'Seasons'}
 elseif cs ==3
-    Cases = {'Airmasses'};
+    Cases = {'Airmasses'}
+end
+
+if amod == 1
+    AtmosMod = {'CT'}
+elseif amod == 2
+    AtmosMod = {'WRF'}
 end
 
 Levels = {'ABL','LFT','HFT'} ;   
@@ -61,6 +68,9 @@ Airmasses = {'Fair', 'Cold', 'Warm'};
 Nme.Regions = Regions; 
 Nme.Seasons = Seasons;
 Nme.Airmasses = Airmasses;
+Levels = Levels(startlev:end);
+
+disp([AtmosMod{1} ' ' Cases{1} ' ' Nme.(Cases{1}){cat}])
 
 % Bootstrapping parameters
 %nboot = 1000; % number of bootstraps (allow some additionals for non-convergence)
@@ -146,7 +156,7 @@ Lat =  AllLegs.Lat;
 Lon =  AllLegs.Lon;
 z =  AllLegs.z_AGL;
 
-for mod = {'CT', 'WRF'} 
+for mod = AtmosMod 
 
     if strcmp(mod{1}, 'WRF')
         c  = CO2.Res_WRF;
@@ -215,8 +225,11 @@ clear Flag CO2 Lat Lon
 
 %% Now start the actual calculation loop
 for c = Cases
-    for nm = 1:length(Nme.(c{1}))     
-        for mod = {'CT', 'WRF'}
+    for nm = cat % 1:length(Nme.(c{1}))     
+        if nm>length(Nme.(c{1})) 
+            exit()
+        end
+        for mod = AtmosMod
             for Level = Levels
                 disp([Nme.(c{1}){nm} ' ' mod{1} '_' Level{1} ' Nboot: ' num2str(nboot)]  )
                 tic
@@ -227,6 +240,7 @@ for c = Cases
                 if strcmp(BlockLengthMeth, 'Optimal') 
                     b = ceil(opt_block_length(Data(4,:)'));
                     b = b(2);
+                    disp(['blocklenght = ' num2str(b)])
                 else
                     b = round(length(Data)^(1/3));
                 end
@@ -301,11 +315,11 @@ for c = Cases
                     % Now assemble overall statistics 
                     N_tot(sample,:) = nansum(N(:,:));
                     Gamma(sample,:) = nansum(V(:,:).*N(:,:))./N_tot(sample,:);
-
+                    
                     G_sigma(sample,:) = sqrt(...
                                         1/(sum(N_tot(sample,:))-1) .* ...
                                         ( ... 
-                                        nansum( (N(:,:)-1).*V(:,:) + ...
+                                        nansum( (N(:,:)-1).*Var(:,:) + ...
                                         N(:,:).*V(:,:).^2 ) - ...
                                         nansum(N(:,:)).*Gamma(sample,:).^2 ...
                                         ));
@@ -334,7 +348,11 @@ for c = Cases
                                     model= fitnlm(Distance,Gamma(sample,:),modFun{Index},start.*modifier(pp,:),'Weight',1./G_sigma(sample,:));
                                     repeat = false;
                                 catch
-                                    pp = pp+1;
+                                    pp = pp+1
+                                    if pp>length(start)
+                                        repeat=false;
+                                        disp('did not converve')
+                                    end
                                 end
                             end
                             
