@@ -7,7 +7,13 @@
 
 function funOut = CalculateBootstrap(cs, amod, cat, startlev, nboot)
 warning('off','all')
-disp([cs, amod, cat, startlev, nboot])
+%disp([cs, amod, cat, startlev, nboot])
+cs 
+amod
+cat
+startlev
+nboot
+
 %% Personal header to adjust paths 
 if strcmp(getenv('computername'),'DESKTOP-45CVB98')
     addpath(genpath('C:\Users\tobia\OneDrive - The Pennsylvania State University\Projects\ACT-America\Code\GitCode'));
