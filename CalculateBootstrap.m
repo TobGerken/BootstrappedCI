@@ -8,11 +8,14 @@
 function funOut = CalculateBootstrap(cs, amod, cat, startlev, nboot)
 warning('off','all')
 %disp([cs, amod, cat, startlev, nboot])
-cs 
-amod
-cat
-startlev
-nboot
+
+try
+    cs = str2double(cs);
+    amod = str2double(amod)
+    cat = str2double(cat)
+    startlev= str2double(startlev)
+    nboot = str2double(nboot)
+ end
 
 %% Personal header to adjust paths 
 if strcmp(getenv('computername'),'DESKTOP-45CVB98')
