@@ -9,7 +9,7 @@ function funOut = CalculateBootstrap(cs, amod, cat, startlev, nboot)
 warning('off','all')
 %disp([cs, amod, cat, startlev, nboot])
 
-try
+if ischar(cs)
     cs = str2double(cs);
     amod = str2double(amod)
     cat = str2double(cat)
@@ -77,7 +77,7 @@ Airmasses = {'Fair', 'Cold', 'Warm'};
 Nme.Regions = Regions; 
 Nme.Seasons = Seasons;
 Nme.Airmasses = Airmasses;
-Levels = Levels(startlev:end);
+%Levels = Levels(startlev:end);
 
 disp([AtmosMod{1} ' ' Cases{1} ' ' Nme.(Cases{1}){cat}])
 
@@ -165,12 +165,12 @@ Lat =  AllLegs.Lat;
 Lon =  AllLegs.Lon;
 z =  AllLegs.z_AGL;
 
-for mod = AtmosMod 
+for mod = {'WRF', 'CT'}
 
     if strcmp(mod{1}, 'WRF')
         c  = CO2.Res_WRF;
     elseif strcmp(mod{1}, 'CT')
-        c  = CO2.Res_WRF;
+        c  = CO2.Res_CT;
     end
 
 % Select data by season and level 
@@ -239,12 +239,12 @@ for c = Cases
             exit()
         end
         for mod = AtmosMod
-            for Level = Levels
+            for Level = Levels(startlev:end)
                 disp([Nme.(c{1}){nm} ' ' mod{1} '_' Level{1} ' Nboot: ' num2str(nboot)]  )
                 tic
                 % select the appropriate data 
                  Data = D.(mod{1}).(Nme.(c{1}){nm}).(Level{1}) ; 
-            
+                  
                     n = length(Data);
                 if strcmp(BlockLengthMeth, 'Optimal') 
                     b = ceil(opt_block_length(Data(4,:)'));
@@ -287,7 +287,7 @@ for c = Cases
                         iii=iii(1:n);
                         DataSample= DataCirc(:,iii);
                     end
-            
+                    clear Data 
                     % Allocate arrays for speed
                     N = nan(60, length(edges)-1);
                     V = nan(60, length(edges)-1);
